@@ -74,7 +74,7 @@ async function run() {
       console.log("users get");
       const result = await user.toArray();
       if (result) {
-        res.send({ status: "success", data: result });
+        res.send(result);
       } else {
         res.send({ status: 404 });
       }
