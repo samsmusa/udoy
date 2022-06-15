@@ -99,11 +99,12 @@ async function run() {
 
     // project
 
-    app.put("/project", async (req, res) => {
-      const { _id, ...updateOrder } = req.body;
+    app.put("/project/:id", async (req, res) => {
+      const id = req.params.id;
+      const updateOrder = req.body;
 
       console.log("project put");
-      const query = { _id: ObjectId(_id) };
+      const query = { _id: ObjectId(id) };
       const updated = await projectCollection.updateOne(
         query,
         { $set: updateOrder }, // Update
@@ -142,7 +143,7 @@ async function run() {
         }
       }
       // step 2: get the booking of that day. output: [{}, {}, {}, {}, {}, {}]
-      const cursor = await projectCollection.find(query);
+      const cursor = await projectCollection.find(query).sort({ _id: -1 });
       const userProduct = await cursor.toArray();
       res.send(userProduct);
     });
